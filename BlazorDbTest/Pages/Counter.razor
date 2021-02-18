@@ -1,0 +1,32 @@
+﻿@page "/counter"
+@using BlazorDbTest.Data
+@using DevExpress.Blazor
+<h1>Counter</h1>
+
+<p>Current count: @Applic.PersonApps.GetCount()</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="LoadPeople">Load</button>
+<DxDataGrid Data="@DataSource">
+    <DxDataGridColumn Field="@nameof(Person.FirstName)" />
+    <DxDataGridColumn Field="@nameof(Person.LastName)" />
+    <DxDataGridColumn Field="@nameof(Person.Birthdate)" />
+
+</DxDataGrid>
+
+    @code {
+
+        private IEnumerable<Person> DataSource = Enumerable.Empty<Person>();
+        //private long currentCount = Applic.PersonApps.GetCount();
+
+        private void IncrementCount()
+        {
+            var person = Applic.PersonApps.CreateDbObj("Theo", "Tester", new(1990, 3, 20));
+            StateHasChanged();
+        }
+
+        private void LoadPeople()
+        {
+            DataSource = Applic.PersonApps.GetDbObjs();
+        }
+    }
